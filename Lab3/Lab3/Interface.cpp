@@ -1,12 +1,21 @@
 #include "Interface.h"
 
+
 void Interface::console_interface()
 {
-	FileWorker file("graph.txt");
+	string name;
+	cout << "Input name file: ";
+	cin >> name;
+	name = "file\\" + name;
+	FileWorker file(name);
 	Graph graph = file.read_graph();
 
-	write_graph(graph);
+	Algorithm algo;
+	algo.greedy_coloring(graph);
+
+	//write_graph(graph);
 	file.write_graph(graph);
+	file.write_colors(graph);
 }
 
 void Interface::write_graph(Graph graph)

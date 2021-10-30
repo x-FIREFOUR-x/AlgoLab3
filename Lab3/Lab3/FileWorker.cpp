@@ -43,3 +43,17 @@ void FileWorker::write_graph(Graph& graph)
 	}
 	fout.close();
 }
+
+void FileWorker::write_colors(Graph& graph)
+{
+	ofstream fout;
+	fout.open(filename, ios::out|ios::app);
+	fout << "Colors: " << "\n";
+	
+	for (int i = 0; i < graph.get_size(); i++)
+	{
+		fout << graph.get_color(i) << " ";
+	}
+	fout << "\n";
+	fout.close();
+}
