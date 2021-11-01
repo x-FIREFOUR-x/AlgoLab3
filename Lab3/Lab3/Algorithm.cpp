@@ -2,7 +2,9 @@
 
 void Algorithm::greedy_coloring(Graph& graph)
 {
-	graph.set_color(0, 1);
+	//graph.set_color(0, 1);
+	graph.add_variant_painting();
+	int number = graph.get_size_colors_node() - 1;
 
 	bool* available = new bool[graph.get_size()];
 	for (int i = 0; i < graph.get_size(); i++)
@@ -10,7 +12,7 @@ void Algorithm::greedy_coloring(Graph& graph)
 		available[i] = true;		// доступні кольори для даної вершини
 	}
 
-	for (int u = 1; u < graph.get_size(); u++)		// проходимо по всіх вершинах крім першої 
+	for (int u = 0; u < graph.get_size(); u++)		// проходимо по всіх вершинах крім першої 
 	{
 
 				// визначаєм доступні кольори для вершини u
@@ -18,9 +20,9 @@ void Algorithm::greedy_coloring(Graph& graph)
 		{
 			if (graph.get_element(u, i) == 1)		// перевіряєм чи вершина u суміжна з цею i
 			{
-				if (graph.get_color(i) != 0)	// перевіряєм чи вона не покрашена
+				if (graph.get_color(number, i) != 0)	// перевіряєм чи вона не покрашена
 				{
-					available[graph.get_color(i)] = false;		// якщо суміжна вершина зафарбована то цей колір недоступний для даної вершини
+					available[graph.get_color(number, i)] = false;		// якщо суміжна вершина зафарбована то цей колір недоступний для даної вершини
 				}
 			}
 		}
@@ -30,7 +32,7 @@ void Algorithm::greedy_coloring(Graph& graph)
 		{
 			if (available[i] == true)
 			{
-				graph.set_color(u, i);
+				graph.set_color(number, u, i);
 			}
 		}
 

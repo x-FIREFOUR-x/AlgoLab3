@@ -13,11 +13,11 @@ Graph::Graph(int in_size)
 		matrix_graph[i] = new int[size];
 	}
 
-	colors_node = new int [size];
+	/*colors_node = new int [size];
 	for (int i = 0; i < size; i++)
 	{
 		colors_node[i] = 0;
-	}
+	}*/
 }
 
 Graph::Graph(const Graph& obj)
@@ -38,11 +38,16 @@ Graph::Graph(const Graph& obj)
 
 	}
 
-	colors_node = new int[size];
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < obj.colors_node.size(); i++)
 	{
-		colors_node[i] = obj.colors_node[i];
+		int* buf = new int[size];
+		colors_node.push_back(buf);
+		for (int j = 0; j < size; j++)
+		{
+			colors_node[i][j] = obj.colors_node[i][j];
+		}
 	}
+	
 }
 
 Graph::~Graph()
@@ -75,13 +80,28 @@ int Graph::get_size()
 	return size;
 }
 
-void Graph::set_color(int number, int color)
+void Graph::set_color(int number_variant, int number_node, int color)
 {
-	colors_node[number] = color;
+	colors_node[number_variant][number_node] = color;
 }
 
-int Graph::get_color(int number)
+int Graph::get_color(int number_variant , int number_node)
 {
-	return colors_node[number];
+	return colors_node[number_variant][number_node];
+}
+
+void Graph::add_variant_painting()
+{
+	int* buf = new int[size];
+	colors_node.push_back(buf);
+	for (int j = 0; j < size; j++)
+	{
+		colors_node[colors_node.size() - 1][j] = 0;
+	}
+}
+
+int Graph::get_size_colors_node()
+{
+	return colors_node.size();
 }
 

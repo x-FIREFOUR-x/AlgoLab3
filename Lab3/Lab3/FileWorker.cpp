@@ -50,10 +50,14 @@ void FileWorker::write_colors(Graph& graph)
 	fout.open(filename, ios::out|ios::app);
 	fout << "Colors: " << "\n";
 	
-	for (int i = 0; i < graph.get_size(); i++)
+	for (int i = 0; i < graph.get_size_colors_node(); i++)
 	{
-		fout << graph.get_color(i) << " ";
+		for (int j = 0; j < graph.get_size(); j++)
+		{
+			fout << graph.get_color(i, j) << " ";
+		}
+		fout << "\n";
 	}
-	fout << "\n";
+	
 	fout.close();
 }
