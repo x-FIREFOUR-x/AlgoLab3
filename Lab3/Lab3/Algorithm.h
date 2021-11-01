@@ -7,6 +7,7 @@ class Algorithm
 {
 
 public:
-	void greedy_coloring(Graph& graph);
+	void greedy_coloring(Graph& graph, int start_node);
+	void generation_area(Graph& graph);
 };
 

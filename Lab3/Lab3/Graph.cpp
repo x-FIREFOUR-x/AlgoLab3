@@ -96,7 +96,7 @@ void Graph::add_variant_painting()
 	colors_node.push_back(buf);
 	for (int j = 0; j < size; j++)
 	{
-		colors_node[colors_node.size() - 1][j] = 0;
+		colors_node[colors_node.size() - 1][j] = -1;
 	}
 }
 

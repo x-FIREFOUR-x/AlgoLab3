@@ -11,7 +11,7 @@ void Interface::console_interface()
 	Graph graph = file.read_graph();
 
 	Algorithm algo;
-	algo.greedy_coloring(graph);
+	algo.generation_area(graph);
 
 	//write_graph(graph);
 	file.write_graph(graph);

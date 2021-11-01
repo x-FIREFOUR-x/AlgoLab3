@@ -1,6 +1,6 @@
 #include "Algorithm.h"
 
-void Algorithm::greedy_coloring(Graph& graph)
+void Algorithm::greedy_coloring(Graph& graph, int start_node)
 {
 	//graph.set_color(0, 1);
 	graph.add_variant_painting();
@@ -12,34 +12,53 @@ void Algorithm::greedy_coloring(Graph& graph)
 		available[i] = true;		// доступні кольори для даної вершини
 	}
 
-	for (int u = 0; u < graph.get_size(); u++)		// проходимо по всіх вершинах крім першої 
+	int u = start_node;
+	do
 	{
-
-				// визначаєм доступні кольори для вершини u
+		// визначаєм доступні кольори для вершини u
 		for (int i = 0; i < graph.get_size(); i++)		// перебираєм вершини суміжна з вершиною u
 		{
 			if (graph.get_element(u, i) == 1)		// перевіряєм чи вершина u суміжна з цею i
 			{
-				if (graph.get_color(number, i) != 0)	// перевіряєм чи вона не покрашена
+				if (graph.get_color(number, i) != -1)	// перевіряєм чи вона не покрашена
 				{
 					available[graph.get_color(number, i)] = false;		// якщо суміжна вершина зафарбована то цей колір недоступний для даної вершини
 				}
 			}
 		}
-		
-			// знаходимо перший доступний колір і красимо поточну вершину u
+
+		// знаходимо перший доступний колір і красимо поточну вершину u
 		for (int i = 0; i < graph.get_size(); i++)
 		{
 			if (available[i] == true)
 			{
 				graph.set_color(number, u, i);
+				break;
 			}
 		}
 
-			// робимо всі кольори доступні для наступної ітерації циклу
+		// робимо всі кольори доступні для наступної ітерації циклу
 		for (int i = 0; i < graph.get_size(); i++)
 		{
 			available[i] = true;
 		}
+
+		u++;
+
+		if (u > graph.get_size() - 1)
+		{
+			u = 0;
+		}
+
+	} while (u != start_node);
+
+}
+
+void Algorithm::generation_area(Graph& graph)
+{
+	for (int i = 0; i < graph.get_size(); i++)
+	{
+		greedy_coloring(graph, i);
 	}
+	
 }
