@@ -20,6 +20,7 @@ public:
 	int get_color(int number_variant, int number_node);
 
 	void add_variant_painting();
+	void check_new_variant();
 	int get_size_colors_node();
 };
 

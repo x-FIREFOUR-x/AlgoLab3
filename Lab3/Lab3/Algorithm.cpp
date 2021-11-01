@@ -52,6 +52,7 @@ void Algorithm::greedy_coloring(Graph& graph, int start_node)
 
 	} while (u != start_node);
 
+	graph.check_new_variant();
 }
 
 void Algorithm::generation_area(Graph& graph)

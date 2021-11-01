@@ -100,6 +100,29 @@ void Graph::add_variant_painting()
 	}
 }
 
+void Graph::check_new_variant()
+{
+	int number_new = colors_node.size() - 1;
+	
+	for (int i = 0; i < number_new; i++)
+	{
+		bool uniq = false;
+		for (int j = 0; j < size; j++)
+		{
+			if (colors_node[i][j] != colors_node[number_new][j])
+			{
+				uniq = true;
+				break;
+			}
+		}
+		if (!uniq)
+		{
+			colors_node.pop_back();
+			break;
+		}
+	}
+}
+
 int Graph::get_size_colors_node()
 {
 	return colors_node.size();
