@@ -16,6 +16,7 @@ void Interface::console_interface()
 	//write_graph(graph);
 	file.write_graph(graph);
 	file.write_colors(graph);
+	file.write_used_colors(graph);
 }
 
 void Interface::write_graph(Graph graph)

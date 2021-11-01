@@ -61,3 +61,23 @@ void FileWorker::write_colors(Graph& graph)
 	
 	fout.close();
 }
+
+void FileWorker::write_used_colors(Graph& graph)
+{
+	ofstream fout;
+	fout.open(filename, ios::out | ios::app);
+	fout << "Used colors: " << "\n";
+
+	for (int i = 0; i < graph.get_size_colors_node(); i++)
+	{
+		vector<int> list = graph.get_used_color(i);
+		for (int j = 0; j < list.size(); j++)
+		{
+			fout << list[j] << " ";
+		}
+		fout << "\n";
+	}
+	
+
+	fout.close();
+}

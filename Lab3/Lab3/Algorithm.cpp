@@ -33,6 +33,7 @@ void Algorithm::greedy_coloring(Graph& graph, int start_node)
 			if (available[i] == true)
 			{
 				graph.set_color(number, u, i);
+				graph.add_new_color(i);
 				break;
 			}
 		}

@@ -11,5 +11,6 @@ public:
 	Graph read_graph();
 	void write_graph(Graph& graph);
 	void write_colors(Graph& graph);
+	void write_used_colors(Graph& graph);
 };
 

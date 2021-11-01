@@ -98,6 +98,7 @@ void Graph::add_variant_painting()
 	{
 		colors_node[colors_node.size() - 1][j] = -1;
 	}
+	used_colors.push_back(vector<int>());
 }
 
 void Graph::check_new_variant()
@@ -118,6 +119,7 @@ void Graph::check_new_variant()
 		if (!uniq)
 		{
 			colors_node.pop_back();
+			used_colors.pop_back();
 			break;
 		}
 	}
@@ -126,5 +128,45 @@ void Graph::check_new_variant()
 int Graph::get_size_colors_node()
 {
 	return colors_node.size();
+}
+
+vector<int> Graph::get_used_color(int number_variant)
+{
+	return vector<int>(used_colors[number_variant]);
+}
+
+void Graph::add_new_color(int color)
+{
+	int last = used_colors.size() - 1;
+	bool new_cl = true;
+	for (size_t i = 0; i < used_colors[last].size(); i++)
+	{
+		if (color == used_colors[last][i])
+		{
+			new_cl = false;
+		}
+	}
+
+	if (new_cl)
+		used_colors[last].push_back(color);
+}
+
+void Graph::del_used_color(int number_variant, int color)
+{
+	int last = used_colors[number_variant].size() - 1;
+
+	int in_need;
+	for (int i = 0; i <= last; i++)
+	{
+		if (used_colors[number_variant][i] == color)
+		{
+			in_need = i;
+			break;
+		}
+	}
+
+	auto it = used_colors[number_variant].begin() + in_need;
+
+	used_colors[number_variant].erase(it);
 }
 
