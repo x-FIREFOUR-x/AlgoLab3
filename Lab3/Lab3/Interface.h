@@ -6,8 +6,8 @@ using namespace std;
 class Interface
 {
 public:
-	void console_interface();
+	void console_interface();				// консольний інтерфейс програми
 private:
-	void write_graph(Graph graph);
+	void write_graph(Graph graph);			// вивести граф на екран
 };
 

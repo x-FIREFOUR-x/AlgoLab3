@@ -5,12 +5,12 @@
 using namespace std;
 class FileWorker
 {
-	string filename;
+	string filename;			// ім'я файла
 public:
 	FileWorker(string name);
-	Graph read_graph();
-	void write_graph(Graph& graph);
-	void write_colors(Graph& graph);
-	void write_used_colors(Graph& graph);
+	Graph read_graph();						// зчитати граф в файлі
+	void write_graph(Graph& graph);			// записати граф в файл
+	void write_colors(Graph& graph);		// записати варіанти розкраски графа в файл
+	void write_used_colors(Graph& graph);	// записати використанні кольори варіантів розкраски в файл
 };
 
