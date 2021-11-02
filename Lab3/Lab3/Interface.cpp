@@ -8,13 +8,16 @@ void Interface::console_interface()
 	cin >> name;
 	name = "file\\" + name;
 	FileWorker file(name);
-	Graph graph = file.read_graph();
+	int bee_worker;
+	int bee_scout;
+	Graph graph = file.read_graph(bee_worker, bee_scout);
 
-	Algorithm algo;
-	algo.generation_area(graph);
+	Algorithm algo(bee_worker, bee_scout);
+	algo.bee_colony(graph);
 
 	//write_graph(graph);
 	file.write_graph(graph);
+	file.write_bee(bee_worker, bee_scout);
 	file.write_colors(graph);
 	file.write_used_colors(graph);
 }

@@ -1,5 +1,11 @@
 #include "Algorithm.h"
 
+Algorithm::Algorithm(int w, int s)
+{
+	bee_worker = w;
+	bee_scout = s;
+}
+
 void Algorithm::greedy_coloring(Graph& graph, int start_node)
 {
 	//graph.set_color(0, 1);
@@ -63,4 +69,9 @@ void Algorithm::generation_area(Graph& graph)
 		greedy_coloring(graph, i);
 	}
 	
+}
+
+void Algorithm::bee_colony(Graph& graph)
+{
+	generation_area(graph);
 }
