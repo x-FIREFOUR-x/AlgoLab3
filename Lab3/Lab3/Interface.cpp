@@ -18,8 +18,8 @@ void Interface::console_interface()
 	//write_graph(graph);
 	file.write_graph(graph);
 	file.write_bee(bee_worker, bee_scout);
-	file.write_colors(graph);
-	file.write_used_colors(graph);
+	file.write_colors(graph, algo);
+	file.write_used_colors(graph, algo);
 }
 
 void Interface::write_graph(Graph graph)

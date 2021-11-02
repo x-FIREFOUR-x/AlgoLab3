@@ -46,17 +46,19 @@ void FileWorker::write_graph(Graph& graph)
 	fout.close();
 }
 
-void FileWorker::write_colors(Graph& graph)
+void FileWorker::write_colors(Graph& graph, Algorithm& algo)
 {
 	ofstream fout;
 	fout.open(filename, ios::out|ios::app);
 	fout << "Colors: " << "\n";
 	
-	for (int i = 0; i < graph.get_size_colors_node(); i++)
+	vector<int> area;
+	for (int i = 0; i < algo.get_count_areas(); i++)
 	{
-		for (int j = 0; j < graph.get_size(); j++)
+		area = algo.get_area(i);
+		for (int j = 0; j < area.size(); j++)
 		{
-			fout << graph.get_color(i, j) << " ";
+			fout << area[j] << " ";
 		}
 		fout << "\n";
 	}
@@ -64,18 +66,19 @@ void FileWorker::write_colors(Graph& graph)
 	fout.close();
 }
 
-void FileWorker::write_used_colors(Graph& graph)
+void FileWorker::write_used_colors(Graph& graph, Algorithm& algo)
 {
 	ofstream fout;
 	fout.open(filename, ios::out | ios::app);
 	fout << "Used colors: " << "\n";
 
-	for (int i = 0; i < graph.get_size_colors_node(); i++)
+	vector<int> used_color;
+	for (int i = 0; i < algo.get_count_areas(); i++)
 	{
-		vector<int> list = graph.get_used_color(i);
-		for (int j = 0; j < list.size(); j++)
+		used_color = algo.get_used_color(i);
+		for (int j = 0; j < used_color.size(); j++)
 		{
-			fout << list[j] << " ";
+			fout << used_color[j] << " ";
 		}
 		fout << "\n";
 	}
