@@ -48,8 +48,6 @@ void Algorithm::bee_colony(Graph& graph, int& count_iter)
 	}
 	else
 	{
-		sort_area();
-
 		if (bee_scout <= areas.size())
 		{
 			for (int i = 0; i < bee_scout - 1; i++)
@@ -67,6 +65,7 @@ void Algorithm::bee_colony(Graph& graph, int& count_iter)
 			}
 		}
 
+		sort_area();
 		count_iter++;
 	}
 		
@@ -227,7 +226,7 @@ bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_
 		{
 			if (graph.get_element(num_node, i) != 0 && i != num_adj_node)
 			{
-				if (areas[number_area][i] == cl_node )
+				if (areas[number_area][i] == cl_adj_node)
 				{
 					imposible_swap = false;
 					break;
@@ -257,11 +256,12 @@ bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_
 		}
 
 		int new_color = cl_node;
-		for (int i = 0; i < available.size(); i++)		// находимо перший доступний колір для покраски num_adj_node
+		for (int i = 0; i < used_colors[number_area].size(); i++)		// находимо доступний колір для перекраски num_adj_node
 		{
-			if (available[i] == true)
+			if (available[used_colors[number_area][i]] == true && used_colors[number_area][i] != cl_node)
 			{
-				new_color = i;
+				new_color = used_colors[number_area][i];
+				break;
 			}
 		}
 
@@ -274,11 +274,11 @@ bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_
 				if (areas[number_area][i] == cl_node)
 				{
 					cl_node_is = true;
-					break;
+					//break;
 				}
 			}
 
-			if (!cl_node_is)
+			if (cl_node_is == false)
 			{
 				del_used_color(number_area, cl_node);
 				//used_colors[number_area].pop_back();
