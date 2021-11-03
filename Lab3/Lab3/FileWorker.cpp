@@ -5,7 +5,7 @@ FileWorker::FileWorker(string name)
 	filename = name;
 }
 
-Graph FileWorker::read_graph(int& bee_worker, int& bee_scout)
+Graph FileWorker::read_graph(int& bee_worker, int& bee_scout, int& count_area)
 {
 	ifstream fin;
 	fin.open(filename);
@@ -25,6 +25,7 @@ Graph FileWorker::read_graph(int& bee_worker, int& bee_scout)
 	}
 	fin >> bee_worker;
 	fin >> bee_scout;
+	fin >> count_area;
 	fin.close();
 
 	return graph;
@@ -87,12 +88,12 @@ void FileWorker::write_used_colors(Graph& graph, Algorithm& algo)
 	fout.close();
 }
 
-void FileWorker::write_bee(int bee_worker, int bee_scout)
+void FileWorker::write_bee(int bee_worker, int bee_scout, int count_area)
 {
 	ofstream fout;
 	fout.open(filename, ios::out | ios::app);
 
-	fout << bee_worker << " " << bee_scout << "\n";
+	fout << bee_worker << " " << bee_scout << " " << count_area << "\n";
 
 	fout.close();
 }

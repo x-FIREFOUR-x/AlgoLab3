@@ -10,28 +10,37 @@ void Interface::console_interface()
 	FileWorker file(name);
 	int bee_worker;
 	int bee_scout;
-	Graph graph = file.read_graph(bee_worker, bee_scout);
+	int count_area;
+	Graph graph = file.read_graph(bee_worker, bee_scout, count_area);
 
-	Algorithm algo(bee_worker, bee_scout);
+	int amount_iter;
+	int step;
+	cout << "Input amount iteration: ";
+	cin >> amount_iter;
+	cout << "Input step iteration: ";
+	cin >> step;
+
+	Algorithm algo(bee_worker, bee_scout, count_area);
 	int count_iter = 0;
-	while (count_iter != 100)
+	
+	while (count_iter - 1 != amount_iter)
 	{
 		algo.bee_colony(graph, count_iter);
 
-		cout << count_iter << endl;
-		write_areas(algo);
-		write_used_colors(algo);
-		cout << endl;
+		if ( ((count_iter - 1) % step) == 0)
+		{
+			cout << "_____________________________________________" << endl;
+			cout << "Iteration¹ " << count_iter - 1 << endl;
+			write_areas(algo);
+			write_used_colors(algo);
+			cout << "----------------------------------------------" << endl;
+		}
 	}
-	
-	cout << count_iter << endl;
-	write_areas(algo);
-	write_used_colors(algo);
-	cout << endl;
+
 	//write_graph(graph);
 	/*
 	file.write_graph(graph);
-	file.write_bee(bee_worker, bee_scout);
+	file.write_bee(bee_worker, bee_scout, count_area);
 	file.write_colors(graph, algo);
 	file.write_used_colors(graph, algo);
 	*/

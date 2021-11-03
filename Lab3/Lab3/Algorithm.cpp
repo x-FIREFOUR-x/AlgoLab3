@@ -30,46 +30,55 @@ struct compair_select_node
 	}
 };
 
-Algorithm::Algorithm(int w, int s)
+Algorithm::Algorithm(int w, int s, int c)
 {
 	bee_worker = w;
 	bee_scout = s;
+	count_area = c;
 }
 
 
 void Algorithm::bee_colony(Graph& graph, int& count_iter)
 {
 	if (count_iter == 0)
-		generation_area(graph);
-	sort_area();
-	
-	if (bee_scout <= areas.size())
 	{
-		for (int i = 0; i < bee_scout - 1; i++)
-		{
-			sending_worker(graph, i, bee_worker / bee_scout);
-		}
-		int in_random_area = rand() % (areas.size() - (bee_scout - 1)) + (bee_scout - 1);
-		sending_worker(graph, in_random_area, bee_worker / bee_scout);
+		generation_area(graph);
+		count_iter++;
+		sort_area();
 	}
 	else
 	{
-		for (int i = 0; i < areas.size(); i++)
+		sort_area();
+
+		if (bee_scout <= areas.size())
 		{
-			sending_worker(graph, i, bee_worker / bee_scout);
-			output();
+			for (int i = 0; i < bee_scout - 1; i++)
+			{
+				sending_worker(graph, i, bee_worker / bee_scout);
+			}
+			int in_random_area = rand() % (areas.size() - (bee_scout - 1)) + (bee_scout - 1);
+			sending_worker(graph, in_random_area, bee_worker / bee_scout);
 		}
+		else
+		{
+			for (int i = 0; i < areas.size(); i++)
+			{
+				sending_worker(graph, i, bee_worker / bee_scout);
+			}
+		}
+
+		count_iter++;
 	}
-	
-	
-	count_iter++;
+		
 }
 
 void Algorithm::generation_area(Graph& graph)
 {
-	for (int i = 0; i < graph.get_size(); i++)
+	int start_node;
+	for (int i = 0; i < graph.get_size() && areas.size() < count_area; i++)
 	{
-		greedy_coloring(graph, i);
+		start_node = rand() % graph.get_size();
+		greedy_coloring(graph, start_node);
 	}
 
 }
@@ -368,10 +377,3 @@ void Algorithm::del_used_color(int number_variant, int color)
 	used_colors[number_variant].erase(it);
 }
 
-void Algorithm::output()
-{
-	for (int i = 0; i < areas.size(); i++)
-	{
-
-	}
-}

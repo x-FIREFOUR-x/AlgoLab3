@@ -11,11 +11,12 @@ class Algorithm
 private:
 	int bee_worker;
 	int bee_scout;
+	int count_area;
 	vector<vector<int>> areas;				// список варіантів розкраски графа (вектор(варіант) масивів(кольори вершини))
 	vector<vector<int>> used_colors;		// список використаних кольорів в варіантах розкраски
 
 public:
-	Algorithm(int w, int s);
+	Algorithm(int w, int s, int c);
 
 	void bee_colony(Graph& graph, int& count_iter);				// класичний алгоритм бджолиної колонії розфарбування графа
 
@@ -38,6 +39,5 @@ private:
 	void add_new_color(int color);							// добавити новий колір до палітри використаних кольорів
 	void del_used_color(int number_variant, int color);		// видалити колір з використаних кольорів варіанта номер
 
-	void output();
 };
 
