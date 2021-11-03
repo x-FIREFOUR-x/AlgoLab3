@@ -232,11 +232,11 @@ bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_
 		areas[number_area][num_node] = cl_adj_node;					
 		areas[number_area][num_adj_node] = cl_node;
 
-		//map<>
-		vector<bool> available;
+		map<int, bool> available;
+		//vector<bool> available;
 		for (int i = 0; i < used_colors[number_area].size(); i++)
 		{
-			available.push_back(true);
+			available.insert(make_pair(used_colors[number_area][i], true));
 		}
 
 		for (int i = 0; i < graph.get_size(); i++)			// знаходимо всі кольори сусідніх вершин вершини num_adj_node і робимо їх недоступними
