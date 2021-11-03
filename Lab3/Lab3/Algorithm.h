@@ -1,6 +1,7 @@
 #pragma once
 #include "Graph.h"
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 class Algorithm
@@ -13,9 +14,13 @@ private:
 
 public:
 	Algorithm(int w, int s);
-	void greedy_coloring(Graph& graph, int start_node);			// жадібна розкраска графа (одна ділянка)
+
+	void bee_colony(Graph& graph, int& count_iter);				// класичний алгоритм бджолиної колонії розфарбування графа
+
 	void generation_area(Graph& graph);							// генерація ділянок
-	void bee_colony(Graph& graph);								// класичний алгоритм бджолиної колонії розфарбування графа
+	void greedy_coloring(Graph& graph, int start_node);			// жадібна розкраска графа (одна ділянка)
+	
+	void sort_area();										// сортування ділянок за зростанням кількості кольорів в їх палітрі
 
 	int get_count_areas();									// кількість ділянок
 	vector<int> get_area(int number_area);					// ділянка

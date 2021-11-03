@@ -1,9 +1,28 @@
 #include "Algorithm.h"
+#include <numeric>
 
 Algorithm::Algorithm(int w, int s)
 {
 	bee_worker = w;
 	bee_scout = s;
+}
+
+
+void Algorithm::bee_colony(Graph& graph, int& count_iter)
+{
+	if (count_iter == 0)
+		generation_area(graph);
+	sort_area();
+
+}
+
+void Algorithm::generation_area(Graph& graph)
+{
+	for (int i = 0; i < graph.get_size(); i++)
+	{
+		greedy_coloring(graph, i);
+	}
+
 }
 
 void Algorithm::greedy_coloring(Graph& graph, int start_node)
@@ -63,20 +82,26 @@ void Algorithm::greedy_coloring(Graph& graph, int start_node)
 	check_new_variant(graph.get_size());
 }
 
-void Algorithm::generation_area(Graph& graph)
+void Algorithm::sort_area()
 {
-	for (int i = 0; i < graph.get_size(); i++)
+	vector<int> indexs(areas.size());
+	iota(indexs.begin(), indexs.end(), 0);
+	
+
+	sort(indexs.begin(), indexs.end(), [&](int a, int b) {return used_colors[a] < used_colors[b]; });
+
+	vector<vector<int>> buf = move(areas);
+	areas.resize(buf.size());
+	for (int i = 0; i < buf.size(); i++)
 	{
-		greedy_coloring(graph, i);
+		areas[i] = move(buf[indexs[i]]);
 	}
+	sort(used_colors.begin(), used_colors.end(), [](vector<int> a, vector<int> b) { return a.size() < b.size();} );
 	
 }
 
-void Algorithm::bee_colony(Graph& graph)
-{
-	generation_area(graph);
-}
 
+ 
 int Algorithm::get_count_areas()
 {
 	return areas.size();
