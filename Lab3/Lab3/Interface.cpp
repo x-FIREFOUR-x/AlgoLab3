@@ -14,16 +14,27 @@ void Interface::console_interface()
 
 	Algorithm algo(bee_worker, bee_scout);
 	int count_iter = 0;
-	algo.bee_colony(graph, count_iter);
+	while (count_iter != 100)
+	{
+		algo.bee_colony(graph, count_iter);
 
-	//write_areas(algo);
-	//write_used_colors(algo);
+		cout << count_iter << endl;
+		write_areas(algo);
+		write_used_colors(algo);
+		cout << endl;
+	}
+	
+	cout << count_iter << endl;
+	write_areas(algo);
+	write_used_colors(algo);
+	cout << endl;
 	//write_graph(graph);
-
+	/*
 	file.write_graph(graph);
 	file.write_bee(bee_worker, bee_scout);
 	file.write_colors(graph, algo);
 	file.write_used_colors(graph, algo);
+	*/
 }
 
 void Interface::write_graph(Graph graph)

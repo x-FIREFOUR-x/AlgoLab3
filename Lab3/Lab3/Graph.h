@@ -16,6 +16,6 @@ public:
 	int get_element(int row, int column);								// отримати елемент з матриці
 	void set_size(int insize);											// встановити кількість вершин
 	int get_size();														// отримати кількість вершин
-
+	int count_edge(int number_node);									// кількість дуг вершини
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Graph.h"
 #include <vector>
+#include <queue>
 #include <algorithm>
 
 using namespace std;
@@ -22,6 +23,10 @@ public:
 	
 	void sort_area();										// сортування ділянок за зростанням кількості кольорів в їх палітрі
 
+	void sending_worker(Graph& graph, int number_area, int count_bee_worker);
+
+	bool swap_nodes(Graph& graph, int number_area, int num_node, int num_adj_node);
+
 	int get_count_areas();									// кількість ділянок
 	vector<int> get_area(int number_area);					// ділянка
 	vector<int> get_used_color(int number_area);			// палітра ділянки
@@ -31,5 +36,7 @@ private:
 
 	void add_new_color(int color);							// добавити новий колір до палітри використаних кольорів
 	void del_used_color(int number_variant, int color);		// видалити колір з використаних кольорів варіанта номер
+
+	void output();
 };
 

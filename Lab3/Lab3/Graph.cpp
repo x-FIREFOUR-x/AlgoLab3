@@ -63,3 +63,14 @@ int Graph::get_size()
 	return size;
 }
 
+int Graph::count_edge(int number_node)
+{
+	int count = 0;
+	for (int i = 0; i < size; i++)
+	{
+		count += matrix_graph[number_node][i];
+
+	}
+	return count;
+}
+

@@ -1,5 +1,34 @@
 #include "Algorithm.h"
 #include <numeric>
+#include <iostream>
+struct compair_select_node
+{
+	bool operator()(pair<pair<int,int>, int> a, pair<pair<int, int>, int> b)
+	{
+		if (a.first.first < b.first.first)
+		{
+			return true;
+		}
+		else
+		{
+			if (a.first.first > b.first.first)
+			{
+				return false;
+			}
+			else
+			{
+				if (a.first.second < b.first.second)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+	}
+};
 
 Algorithm::Algorithm(int w, int s)
 {
@@ -13,7 +42,27 @@ void Algorithm::bee_colony(Graph& graph, int& count_iter)
 	if (count_iter == 0)
 		generation_area(graph);
 	sort_area();
-
+	
+	if (bee_scout <= areas.size())
+	{
+		for (int i = 0; i < bee_scout - 1; i++)
+		{
+			sending_worker(graph, i, bee_worker / bee_scout);
+		}
+		int in_random_area = rand() % (areas.size() - (bee_scout - 1)) + (bee_scout - 1);
+		sending_worker(graph, in_random_area, bee_worker / bee_scout);
+	}
+	else
+	{
+		for (int i = 0; i < areas.size(); i++)
+		{
+			sending_worker(graph, i, bee_worker / bee_scout);
+			output();
+		}
+	}
+	
+	
+	count_iter++;
 }
 
 void Algorithm::generation_area(Graph& graph)
@@ -79,6 +128,8 @@ void Algorithm::greedy_coloring(Graph& graph, int start_node)
 
 	} while (u != start_node);
 
+	delete[] available;
+
 	check_new_variant(graph.get_size());
 }
 
@@ -98,6 +149,136 @@ void Algorithm::sort_area()
 	}
 	sort(used_colors.begin(), used_colors.end(), [](vector<int> a, vector<int> b) { return a.size() < b.size();} );
 	
+}
+
+void Algorithm::sending_worker(Graph& graph, int number_area, int count_bee_worker)
+{
+	priority_queue <pair<pair<int, int>, int>, vector<pair <pair<int, int>, int> >, compair_select_node > pri_que;
+	for (int i = 0; i < graph.get_size(); i++)		// кладем всі вершини графа в чергу 
+	{
+		pair<int, int> parametr(areas[number_area][i], graph.count_edge(i));	// параметри черги колір вершини кількість ребер
+		pri_que.push(pair <pair<int, int>, int> (parametr, i));
+	}
+
+	/*
+	while (!pri_que.empty())
+	{
+		pair <pair<int, int>, int> k = pri_que.top();
+		pri_que.pop();
+		cout << number_area << " " << k.second << " " << k.first.first << " " << k.first.second << endl;
+	}
+	cout << endl;
+	*/
+	pair<pair<int, int>, int> node;	
+	while (count_bee_worker != 0 && !pri_que.empty())			// поки є робочі працюєм на ційй ділянці
+	{
+		node = pri_que.top();			// вершина з черги
+		pri_que.pop();
+
+		vector<int> adjacent_nodes;							// вектор індексів суміжних вершин вершини витягнутої з черги 
+		for (int i = 0; i < graph.get_size(); i++)
+		{
+			if (graph.get_element(node.second,i) != 0)
+			{
+				adjacent_nodes.push_back(i);
+			}
+		}
+
+		for (int i = 0; i < node.first.second && count_bee_worker != 0; i++)	// відпрвляєм робочих на сусідні вершини від витягнутої з черги
+		{
+			swap_nodes(graph, number_area, node.second, adjacent_nodes[i]);
+			count_bee_worker--;
+		}
+	}
+
+}
+
+bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_adj_node)
+{
+	int cl_node = areas[number_area][num_node];					// колір витягнутої з черги вершини
+	int cl_adj_node = areas[number_area][num_adj_node];			// колір вершини на яку полетів робочий
+
+	bool imposible_swap = true;
+	
+	for (int i = 0; i < graph.get_size(); i++)				// перевіряєм чи суміжні вершини num_adj_node не мають кольору cl_node
+	{
+		if (graph.get_element(num_adj_node, i) != 0 && i != num_node)
+		{
+			if (areas[number_area][i] == cl_node )
+			{
+				imposible_swap = false;
+				break;
+			}
+		}
+	}
+
+	if (imposible_swap)
+	{
+		for (int i = 0; i < graph.get_size(); i++)				// перевіряєм чи суміжні вершини num_node не мають кольору cl_adj_node
+		{
+			if (graph.get_element(num_node, i) != 0 && i != num_adj_node)
+			{
+				if (areas[number_area][i] == cl_node )
+				{
+					imposible_swap = false;
+					break;
+				}
+			}
+		}
+	}
+
+	if (imposible_swap)      // міняєм кольори
+	{
+		areas[number_area][num_node] = cl_adj_node;					
+		areas[number_area][num_adj_node] = cl_node;
+
+		//map<>
+		vector<bool> available;
+		for (int i = 0; i < used_colors[number_area].size(); i++)
+		{
+			available.push_back(true);
+		}
+
+		for (int i = 0; i < graph.get_size(); i++)			// знаходимо всі кольори сусідніх вершин вершини num_adj_node і робимо їх недоступними
+		{
+			if (graph.get_element(num_adj_node, i) != 0)
+			{
+				available[areas[number_area][i]] = false;
+			}
+		}
+
+		int new_color = cl_node;
+		for (int i = 0; i < available.size(); i++)		// находимо перший доступний колір для покраски num_adj_node
+		{
+			if (available[i] == true)
+			{
+				new_color = i;
+			}
+		}
+
+		if (new_color != cl_node)    // перевіряєм чи можемо перекрасити і здихатися від крайнього кольору
+		{
+			areas[number_area][num_adj_node] = new_color;
+			bool cl_node_is = false;
+			for (int i = 0; i < graph.get_size(); i++)
+			{
+				if (areas[number_area][i] == cl_node)
+				{
+					cl_node_is = true;
+					break;
+				}
+			}
+
+			if (!cl_node_is)
+			{
+				del_used_color(number_area, cl_node);
+				//used_colors[number_area].pop_back();
+			}
+		}
+	}
+	
+
+	return imposible_swap;
 }
 
 
@@ -185,4 +366,12 @@ void Algorithm::del_used_color(int number_variant, int color)
 	auto it = used_colors[number_variant].begin() + in_need;
 
 	used_colors[number_variant].erase(it);
+}
+
+void Algorithm::output()
+{
+	for (int i = 0; i < areas.size(); i++)
+	{
+
+	}
 }
