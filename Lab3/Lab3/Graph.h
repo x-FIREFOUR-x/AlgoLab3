@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 using namespace std;
 class Graph
 {
@@ -17,5 +18,10 @@ public:
 	void set_size(int insize);											// встановити кількість вершин
 	int get_size();														// отримати кількість вершин
 	int count_edge(int number_node);									// кількість дуг вершини
+
+	bool generation(int min_adj_edge, int max_adj_edge);				// генерація випадкового графа
+	bool check_correct_symetric();
+	bool check_correct_num_edge(int min_adj_edge, int max_adj_edge);
+	int count_avarege_edge();
 };
 
