@@ -38,7 +38,7 @@ void Interface::console_interface()
 			{
 				cout << "_____________________________________________" << endl;
 				cout << "Iteration¹ " << count_iter - 1 << endl;
-				write_areas(algo);
+				//write_areas(algo);
 				write_used_colors(algo);
 				cout << "----------------------------------------------" << endl;
 			}
@@ -105,7 +105,7 @@ void Interface::console_interface()
 			{
 				cout << "_____________________________________________" << endl;
 				cout << "Iteration¹ " << count_iter - 1 << endl;
-				write_areas(algo);
+				//write_areas(algo);
 				write_used_colors(algo);
 				cout << "----------------------------------------------" << endl;
 			}
