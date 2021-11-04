@@ -9,9 +9,9 @@ using namespace std;
 class Algorithm
 {
 private:
-	int bee_worker;
-	int bee_scout;
-	int count_area;
+	int bee_worker;							// кількість робочих
+	int bee_scout;							// кількість розвідників
+	int count_area;							// кількість стартових участків
 	vector<vector<int>> areas;				// список варіантів розкраски графа (вектор(варіант) масивів(кольори вершини))
 	vector<vector<int>> used_colors;		// список використаних кольорів в варіантах розкраски
 
@@ -25,9 +25,9 @@ public:
 	
 	void sort_area();										// сортування ділянок за зростанням кількості кольорів в їх палітрі
 
-	void sending_worker(Graph& graph, int number_area, int count_bee_worker);
+	void sending_worker(Graph& graph, int number_area, int count_bee_worker);			// відправка робочих на площадку
 
-	bool swap_nodes(Graph& graph, int number_area, int num_node, int num_adj_node);
+	bool swap_nodes(Graph& graph, int number_area, int num_node, int num_adj_node);		// заміна кольорів вершин і перекраска 
 
 	int get_count_areas();									// кількість ділянок
 	vector<int> get_area(int number_area);					// ділянка
@@ -39,5 +39,6 @@ private:
 	void add_new_color(int color);							// добавити новий колір до палітри використаних кольорів
 	void del_used_color(int number_variant, int color);		// видалити колір з використаних кольорів варіанта номер
 
+	int count_the_best_area();				// кількість найперспективніших участків
 };
 

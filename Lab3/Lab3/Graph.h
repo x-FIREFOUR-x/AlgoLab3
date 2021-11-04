@@ -5,8 +5,7 @@ class Graph
 {
 	int size;								// к≥льк≥сть вершин
 	int** matrix_graph;						// матриц€ сум≥жност≥ графа (1 Ї ребро, 0 - нема ребра)
-	//vector<int*> colors_node;				// список вар≥ант≥в розкраски графа (вектор(вар≥ант) масив≥в(кольори вершини))
-	//vector<vector<int>> used_colors;		// список використаних кольор≥в в вар≥антах розкраски
+	
 public:
 	Graph();
 	Graph(int in_size);
@@ -20,8 +19,8 @@ public:
 	int count_edge(int number_node);									// к≥льк≥сть дуг вершини
 
 	bool generation(int min_adj_edge, int max_adj_edge);				// генерац≥€ випадкового графа
-	bool check_correct_symetric();
-	bool check_correct_num_edge(int min_adj_edge, int max_adj_edge);
-	int count_avarege_edge();
+	bool check_correct_symetric();										// перев≥рка симетричност≥ ≥ дуги на 0 графа
+	bool check_correct_num_edge(int min_adj_edge, int max_adj_edge);	// перев≥рка к≥лькост≥ ребер в граф≥
+	int count_avarege_edge();											// середнЇ значенн€ ребер в граф≥
 };
 

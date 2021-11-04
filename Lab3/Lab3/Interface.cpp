@@ -44,8 +44,6 @@ void Interface::console_interface()
 			}
 		}
 
-		//file.write_graph(graph);
-		//file.write_bee(bee_worker, bee_scout, count_area);
 	}
 	else
 	{
@@ -62,22 +60,6 @@ void Interface::console_interface()
 		
 		Graph graph(size);
 		graph.generation(min_adj, max_adj);
-		
-		/*
-		bool correct = graph.check_correct_symetric();
-		if (correct)
-			cout << "symetric true" << endl;
-		else
-			cout << "symetric false" << endl;
-		correct = graph.check_correct_num_edge(min_adj, max_adj);
-		if (correct)
-			cout << "count true" << endl;
-		else
-			cout << "count false" << endl;
-		cout << "avarage: " << graph.count_avarege_edge() << endl;
-		*/
-
-		//write_graph(graph);
 
 		
 		cout << "Input count bee worker: ";
@@ -104,7 +86,7 @@ void Interface::console_interface()
 			if (((count_iter - 1) % step) == 0)
 			{
 				cout << "_____________________________________________" << endl;
-				cout << "Iteration¹ " << count_iter - 1 << endl;
+				cout << "Iteration# " << count_iter - 1 << endl;
 				//write_areas(algo);
 				write_used_colors(algo);
 				cout << "----------------------------------------------" << endl;
@@ -115,13 +97,6 @@ void Interface::console_interface()
 		file.write_bee(bee_worker, bee_scout, count_area);
 	}
 		
-	//write_graph(graph);
-	/*
-	file.write_graph(graph);
-	file.write_bee(bee_worker, bee_scout, count_area);
-	file.write_colors(graph, algo);
-	file.write_used_colors(graph, algo);
-	*/
 }
 
 void Interface::write_graph(Graph graph)
@@ -139,8 +114,10 @@ void Interface::write_graph(Graph graph)
 
 void Interface::write_areas(Algorithm algo)
 {
+	cout << "Areas: " << endl;
 	for (int i = 0; i < algo.get_count_areas(); i++)
 	{
+		cout << "(" << i + 1 << ") ";
 		vector<int> area = algo.get_area(i);
 		for (int j = 0; j < area.size(); j++)
 		{
@@ -152,13 +129,15 @@ void Interface::write_areas(Algorithm algo)
 
 void Interface::write_used_colors(Algorithm algo)
 {
+	cout << "Used colors: " << endl;
 	for (int i = 0; i < algo.get_count_areas(); i++)
 	{
+		cout << "(" << i + 1 << ") ";
 		vector<int> used_colors = algo.get_used_color(i);
 		for (int j = 0; j < used_colors.size(); j++)
 		{
 			cout << used_colors[j] << " ";
 		}
-		cout << endl;
+		cout << " (count color: " << used_colors.size() << ")" << endl;
 	}
 }

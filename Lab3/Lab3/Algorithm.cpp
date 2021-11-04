@@ -48,20 +48,53 @@ void Algorithm::bee_colony(Graph& graph, int& count_iter)
 	}
 	else
 	{
-		if (bee_scout <= areas.size())
+		int num_best_area = count_the_best_area();				// кількість ділянок з найращим
+		
+		int rand_bee = bee_worker / bee_scout;			// кількість бджіл на випадкову ділянку
+		int all_bee = bee_worker - rand_bee;			// залишившихся на інші
+		int used_bee = 0;						
+
+		int num_group;								// групи бджіл відправляємих на ділянки крім рандомної 
+		if (num_best_area < bee_scout - 1)			// ділим залишившихся бджіл на групи(груп на одну більше чим перспективних ділянок)	 або стільки ж як всіх ділянок крім випадкової
 		{
-			for (int i = 0; i < bee_scout - 1; i++)
-			{
-				sending_worker(graph, i, bee_worker / bee_scout);
-			}
-			int in_random_area = rand() % (areas.size() - (bee_scout - 1)) + (bee_scout - 1);
-			sending_worker(graph, in_random_area, bee_worker / bee_scout);
+			num_group = num_best_area + 1;
 		}
 		else
 		{
-			for (int i = 0; i < areas.size(); i++)
+			num_group = bee_scout - 1;
+		}
+
+		if (bee_scout <= areas.size())					// розвідників менше чим ділянок
+		{
+			for (int i = 0; i < bee_scout - 1; i++)
 			{
-				sending_worker(graph, i, bee_worker / bee_scout);
+				if (i < num_best_area)						// визначаєм чи ця ділянка перспективна чи ні
+				{
+					int bee_work = all_bee / num_group;		// кількість бджіл на перспективну ділянку
+					used_bee += bee_work;
+
+					sending_worker(graph, i, bee_work);
+					
+				}
+				else
+				{
+					all_bee = all_bee - used_bee;
+					int bee_work = all_bee / (bee_scout - i - 1);    // кількість бджіл на не перспективну ділянку
+					used_bee = bee_work;
+
+					sending_worker(graph, i, bee_work);
+				}
+					
+			}
+			int in_random_area = rand() % (areas.size() - (bee_scout - 1)) + (bee_scout - 1);		// номер випадкової ділянки
+			
+			sending_worker(graph, in_random_area, rand_bee);
+		}
+		else
+		{
+			for (int i = 0; i < areas.size(); i++)			// якщо розвідників більше чим ділянок бджіл ділим рівномірно на всі ділянки
+			{
+				sending_worker(graph, i, bee_worker / areas.size());			
 			}
 		}
 
@@ -241,7 +274,7 @@ bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_
 		areas[number_area][num_adj_node] = cl_node;
 
 		map<int, bool> available;
-		//vector<bool> available;
+		
 		for (int i = 0; i < used_colors[number_area].size(); i++)
 		{
 			available.insert(make_pair(used_colors[number_area][i], true));
@@ -281,7 +314,7 @@ bool Algorithm::swap_nodes(Graph& graph, int number_area, int num_node, int num_
 			if (cl_node_is == false)
 			{
 				del_used_color(number_area, cl_node);
-				//used_colors[number_area].pop_back();
+				
 			}
 		}
 	}
@@ -375,5 +408,22 @@ void Algorithm::del_used_color(int number_variant, int color)
 	auto it = used_colors[number_variant].begin() + in_need;
 
 	used_colors[number_variant].erase(it);
+}
+
+int Algorithm::count_the_best_area()
+{
+	int num_areas = 1;
+	int num_small_cl;
+	num_small_cl = used_colors[0].size();
+
+	for (int i = 1; i < used_colors.size(); i++)
+	{
+		if (num_small_cl == used_colors[i].size())
+		{
+			num_areas++;
+		}
+	}
+
+	return num_areas;
 }
 
