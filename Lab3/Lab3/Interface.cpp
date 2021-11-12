@@ -27,6 +27,7 @@ void Interface::console_interface()
 		cout << "Input step iteration: ";
 		cin >> step;
 
+		write_graph(graph);
 		Algorithm algo(bee_worker, bee_scout, count_area);
 		int count_iter = 0;
 
@@ -75,6 +76,8 @@ void Interface::console_interface()
 		cin >> amount_iter;
 		cout << "Input step iteration: ";
 		cin >> step;
+
+		write_graph(graph);
 
 		Algorithm algo(bee_worker, bee_scout, count_area);
 		int count_iter = 0;
